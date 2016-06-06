@@ -1,0 +1,19 @@
+{
+  "name": "MyVocab",
+  "version": "1.0.0",
+  "description": "The best way to store and study customized vocabulary lists.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Brett Celestre",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "method-override": "^2.3.6",
+    "mongodb": "^2.1.21",
+    "mongoose": "^4.4.19",
+    "nodemon": "^1.9.2"
+  }
+}

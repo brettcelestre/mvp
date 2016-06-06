@@ -21,20 +21,14 @@ Once the project moves into development, the press release can be used as a touc
 ## Heading ##
   > Name the product in a way the reader (i.e. your target customers) will understand.
   MyVocab
-  /
-  MyLists
   
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
   The best way to store and study customized vocabulary lists.
-  /
-  Create and share lists of books, movies, music, and more.
 
 ## Summary ##
   > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
   MyVocab allows you to create custom vocab lists to study for class. You add words to your account and attached different categories to each
-  /
-  MyLists lets you keep track of books, movies, music, or just about anything. Share with friends
 
 ## Problem ##
   > Describe the problem your product solves.

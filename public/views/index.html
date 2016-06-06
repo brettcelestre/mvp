@@ -22,7 +22,7 @@
     <div class='row'>
       
       <div class='col-md-2'>
-        <button type="button" class="btn btn-default" ng-click='addWord(data.word, data.def)'>Add Word</button>
+        <button type="button" class="btn btn-default" ng-click='addWord( data )'>Add Word</button>
       </div>
       
       <div class='col-md-2'>
@@ -36,7 +36,7 @@
       <div class='col-md-6'>
         <form>
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Definition">
+            <input type="text" class="form-control" ng-model='data.def' placeholder="Definition">
           </div>
         </form>
       </div>

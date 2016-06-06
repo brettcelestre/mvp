@@ -10,11 +10,11 @@ app.controller('WordController', function($scope, Word) {
     };
     
     $scope.addWord = function( data ){
-      console.log('addName ran: ', $scope.data.word);
+      console.log('1) addName ran: ', data);
       
       Word.POST( data )
         .then(function(response){
-          console.log('Word.POST data = : ', data);
+          console.log('5) Word.POST data = : ', data);
           return response;
         })
         .catch(function (error) {
@@ -38,7 +38,8 @@ app.factory('Word', function ($http) {
   };
 
   var POST = function( data ){
-    // console.log('Word factory POST method data: ', data);
+    console.log('2) Word factory POST method data: ', data);
+    
     return $http({
       method: 'POST',
       url: '/api/words',

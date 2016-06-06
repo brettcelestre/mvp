@@ -2,29 +2,45 @@
 
 var app = angular.module('MyVocab', []);
 
-// Main Word Controller
+// Main Word Controller ---------------------------------
 app.controller('WordController', function($scope, Word) {
     $scope.data = {
       word: '',
       def: ''
     };
     
-    $scope.addWord = function( data ){
-      console.log('1) addName ran: ', data);
-      
-      Word.POST( data )
-        .then(function(response){
-          console.log('5) Word.POST data = : ', data);
-          return response;
+    $scope.allWords = [];
+    
+    $scope.initLoadWords = function(){
+      Word.GET()
+        .then( function( res ){
+          $scope.allWords = res;
         })
-        .catch(function (error) {
-          console.error(error);
+        .catch(function( err ) {
+          console.error(err);
         });
+    }();
+    
+    $scope.addWord = function( word, def ){
+      if ( word && def ){                          // Checks to make sure the forms are filled out
+        var data = { 'word': word, 'def': def };   // Creates req object
+        Word.POST( data )                          // Submits POST request
+          .then(function(res){
+            $scope.allWords.push(res);             // Immediately pushes new word into allWords array
+            return res;
+          })
+          .catch(function( err ) {
+            console.error( err );
+          });
+        $scope.data.word = '';  // Clears word form
+        $scope.data.def = '';   // Clears def forms
+      } else {
+        alert('Please enter a word a definition.');
+      }
     };
-
 })
 
-// Creates a Word factory
+// Creates a Word factory --------------------------------
 app.factory('Word', function ($http) {
 
   var GET = function(){
@@ -32,14 +48,12 @@ app.factory('Word', function ($http) {
       method: 'GET',
       url: '/api/words'
     })
-    .then(function(resp) {
-      return resp.data;
+    .then(function(res) {
+      return res.data;
     });
   };
 
   var POST = function( data ){
-    console.log('2) Word factory POST method data: ', data);
-    
     return $http({
       method: 'POST',
       url: '/api/words',
@@ -56,4 +70,18 @@ app.factory('Word', function ($http) {
   };
   
 });
+
+// Creates my routes -----------------------------------------
+// app.config('appRoutes', function($routeProvider, $locationProvider) {
+
+//   $routeProvider
+    
+//     .when('/words', {
+//       templateUrl: 'views/words.html',
+//       controller: 'WordController'
+//     });
+
+//   $locationProvider.html5Mode(true);
+
+// });
 

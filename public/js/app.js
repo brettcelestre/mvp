@@ -30,26 +30,47 @@ app.controller('WordController', function($scope, Word, Audio) {
         
         Word.API(word)        // Sends word through our API call
           
-          .then(function(res){            
-            var data = { 'word': word, 'def': null, 'pos': null, 'audio': null };                 // Creates request object
-            data.def = res.data.results[0].senses[0].definition[0];  // Assigns a real definition to our request object
-            data.pos = res.data.results[0].part_of_speech;
-            data.audio = 'https://api.pearson.com/' + res.data.results[0].pronunciations[0].audio[0].url; // Sets up audio link
-            return data;
+          .then(function(res){          
+            var data = { 'word': word, 'def': null, 'pos': null, 'audio': null };  // Creates request object
+            
+            // FINDS EXACT MATCH
+            for ( var i = 0; i < res.data.results.length; i++ ) {                        // Iterates through all matching results
+              if ( word.toLowerCase() === res.data.results[i].headword.toLowerCase() ){  // Finds an exact match
+                if ( res.data.results[i].senses[0].definition[0] &&           // Checks to make sure there is a definition
+                     res.data.results[i].part_of_speech &&                    // Checks to make sure there is a part of speech
+                     res.data.results[i].pronunciations[0].audio[0].url ) {   // Checks to make sure there is an audio url
+                  data.def = res.data.results[i].senses[0].definition[0];     // Assigns a real definition to our request object
+                  data.pos = res.data.results[i].part_of_speech;              // Assigns part of speech
+                  data.audio = 'https://api.pearson.com/' + res.data.results[i].pronunciations[0].audio[0].url; // Sets up audio link
+                  return data;    // Returns our complete data object to be posted
+                }
+              }
+            }
+            
+            alert('Sorry that word could not be found. Try another.');
+            return 'error';   // Sends error message
+                        
+            // data.def = res.data.results[0].senses[0].definition[0];     // Assigns a real definition to our request object
+            // data.pos = res.data.results[0].part_of_speech;
+            // data.audio = 'https://api.pearson.com/' + res.data.results[0].pronunciations[0].audio[0].url; // Sets up audio link
+            // return data;
           })
           
           .then(function( data ){
-            Word.POST( data )                          // Submits POST request
-              .then(function(res){
-                $scope.allWords.push(res);             // Immediately pushes new word into allWords array
-                return res;
-              })
-              .catch(function( err ) {
-                console.error( err );
-              });
+            if ( data !== 'error'){             // Checks to make sure the data is not an error
+              Word.POST( data )                 // Submits POST request
+                .then(function(res){
+                  $scope.allWords.push(res);    // Immediately pushes new word into allWords array
+                  return res;
+                })
+                .catch(function( err ) {
+                  console.error( err );
+                });
+              }
           })
           
           .catch(function(err){
+            alert('Sorry that word could not be found. Try another.');
             console.error(err);
           })
         

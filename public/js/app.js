@@ -31,19 +31,39 @@ app.controller('WordController', function($scope, Word, Audio) {
         Word.API(word)        // Sends word through our API call
           
           .then(function(res){          
-            var data = { 'word': word, 'def': null, 'pos': null, 'audio': null };  // Creates request object
+            var data = { 'word': word, 'def': null, 'pos': 'unknown', 'audio': 'http://www.fromtexttospeech.com/output/0703176001465334138/13504091.mp3' };  // Creates request object
+            
+            console.log('res.data: ', res.data); // Prints out full results
             
             // FINDS EXACT MATCH
             for ( var i = 0; i < res.data.results.length; i++ ) {                        // Iterates through all matching results
+              // console.log(word.toLowerCase() + ' = ' + res.data.results[i].headword.toLowerCase() );
               if ( word.toLowerCase() === res.data.results[i].headword.toLowerCase() ){  // Finds an exact match
-                if ( res.data.results[i].senses[0].definition[0] &&           // Checks to make sure there is a definition
-                     res.data.results[i].part_of_speech &&                    // Checks to make sure there is a part of speech
-                     res.data.results[i].pronunciations[0].audio[0].url ) {   // Checks to make sure there is an audio url
+                // if ( res.data.results[i].senses[0].definition[0] &&           // Checks to make sure there is a definition
+                //      res.data.results[i].part_of_speech &&                    // Checks to make sure there is a part of speech
+                //      res.data.results[i].pronunciations[0].audio[0].url ) {   // Checks to make sure there is an audio url
+                //   data.def = res.data.results[i].senses[0].definition[0];     // Assigns a real definition to our request object
+                //   data.pos = res.data.results[i].part_of_speech;              // Assigns part of speech
+                //   data.audio = 'https://api.pearson.com/' + res.data.results[i].pronunciations[0].audio[0].url; // Sets up audio link
+                //   return data;    // Returns our complete data object to be posted
+                // }
+                
+                if ( typeof res.data.results[i].senses[0].definition[0] !== undefined ) {          // Checks to make sure there is a definition
                   data.def = res.data.results[i].senses[0].definition[0];     // Assigns a real definition to our request object
-                  data.pos = res.data.results[i].part_of_speech;              // Assigns part of speech
-                  data.audio = 'https://api.pearson.com/' + res.data.results[i].pronunciations[0].audio[0].url; // Sets up audio link
-                  return data;    // Returns our complete data object to be posted
                 }
+                if ( res.data.results[i].hasOwnProperty('part_of_speech') ){   // Checks to make sure there is a part of speech
+                    data.pos = res.data.results[i].part_of_speech;             // Assigns part of speech
+                }
+                if ( res.data.results[i].hasOwnProperty('pronunciations') ) {  // Check if has property 'pronunciations' exists
+                  // Checks to make sure there is an audio url
+                  if ( typeof res.data.results[i].pronunciations[0].audio[0].url !== undefined ) {
+                    // Sets up audio link
+                    data.audio = 'https://api.pearson.com/' + res.data.results[i].pronunciations[0].audio[0].url;
+                  }
+                }
+                return data;    // Returns our complete data object to be posted
+                
+                
               }
             }
             
@@ -82,6 +102,9 @@ app.controller('WordController', function($scope, Word, Audio) {
     };
     
     $scope.deleteWord = function( id ){   // deleteWord sends id to factory > DELETE method
+      var deleteSound = 'http://soundbible.com/mp3/Computer%20Error-SoundBible.com-1655839472.mp3';
+      Audio.play(deleteSound);
+      
       Word.DELETE( id )
         .then( function( res ){           // res.data = all remaining words from DB       
           $scope.allWords = res.data;     // Updates allWords array

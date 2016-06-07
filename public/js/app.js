@@ -60,21 +60,14 @@ app.controller('WordController', function($scope, Word, Audio) {
       }
     };
     
-    $scope.deleteWord = function( id ){
-      console.log('deleteWord ran: ', id);
-      var id = { '_id': id };
-      
+    $scope.deleteWord = function( id ){   // deleteWord sends id to factory > DELETE method
       Word.DELETE( id )
-      
-        .then( function( res ){
-          console.log('DELETE res: ', res);
+        .then( function( res ){           // res.data = all remaining words from DB       
+          $scope.allWords = res.data;     // Updates allWords array
         })
         .catch(function( err ) {
           console.error(err);
         });
-      
-      // Update allWords: either invoke the function or do another GET and reassign the array
-      
     };
     
 })
@@ -93,6 +86,7 @@ app.factory('Word', function ($http) {
   };
 
   var POST = function( data ){
+    console.log('Factor POST data: ', data);
     return $http({
       method: 'POST',
       url: '/api/words',
@@ -113,13 +107,12 @@ app.factory('Word', function ($http) {
     });
   };
   
-  var DELETE = function( id ){
-    console.log('Factory > DELETE: ', id);
+  var DELETE = function( data ){  
     return $http({
       method: 'DELETE',
-      url: '/api/words',
-      // data: JSON.stringify(word)
-      data: id
+      url: '/api/words/',
+      data: { '_id': data },
+      headers: {'Content-Type': 'application/json;charset=utf-8'}
     })
     .then(function(res){
       return res;

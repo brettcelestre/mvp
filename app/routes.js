@@ -1,6 +1,6 @@
 
 var Word = require('./models/word');
-var mongodb = require('mongodb');
+// var mongodb = require('mongodb');  // Attempted for DELETE method
 
 module.exports = function(app) {
 
@@ -16,6 +16,8 @@ module.exports = function(app) {
   
   app.post('/api/words', function( req, res ){
     
+    console.log('Routes > Post > req.body: ', req.body);
+    
     var newWord = new Word();         // create a new instance of the Word model
     newWord.word = req.body.word;     // Assigns word to schema
     newWord.def = req.body.def;       // Assigns definition to schema
@@ -29,26 +31,13 @@ module.exports = function(app) {
     });
   });
   
-  // app.delete(
-      
-  // )
-
-  // route to handle delete goes here (app.delete)
-  // Word.delete('/api/words/:id', function( req, res ){
-    // delete the word  
-    // console.log('Routes.js > req: ', req);
-    
-    // req.body.find( 'word', function( err, word ){
-    //   if ( err ) {
-    //     res.send(err);
-    //   } else if ( word ){
-    //     req.word = word;
-    //     console.log('found it: ');
-    //     // next();
-    //   }
-    //   res.json(newWord);
-    // });
-  // })
+  app.delete('/api/words', function( req, res ){  // Delete request
+    Word.find(req.body).remove().exec();          // Finds the word by _id, removes it, then exec.
+    Word.find(function(err, words) {              // This sends all remaining words back as a response
+        if (err) res.send(err);
+        res.json(words);
+    });
+  });
   
   // Front End routes ---
   // route to handle all angular requests

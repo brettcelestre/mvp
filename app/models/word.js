@@ -5,6 +5,8 @@ var Schema = mongoose.Schema;
 var WordSchema = new Schema({
   word: String,
   def: String,
+  pos: String,
+  audio: String,
   created_at: String
 }) 
 

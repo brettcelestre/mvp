@@ -16,14 +16,11 @@
 <body ng-app="MyVocab" ng-controller="WordController">
 <div class="container">
 
-  <div class="col-md-10" id='insertBar'>
-    <div class='row'>
+  <div class="col-md-12">
+    
+    <div class='row inputRow'>
       
-      <div class='col-md-2'>
-        <button type="button" class="btn btn-default" ng-click='addWord( data.word, data.def )'>Add Word</button>
-      </div>
-      
-      <div class='col-md-2'>
+      <div class='col-md-3'>
         <form>
           <div class="form-group">
             <input type="text" class="form-control" ng-model='data.word' placeholder="Word">
@@ -31,24 +28,24 @@
         </form>
       </div>
       
-      <div class='col-md-6'>
-        <form>
-          <div class="form-group">
-            <input type="text" class="form-control" ng-model='data.def' placeholder="Definition">
-          </div>
-        </form>
+      <div class='col-md-2'>
+        <button type="button" class="btn btn-default" ng-click='addWord( data.word, data.def )'>Add Word</button>
       </div>
       
     </div> <!-- Row END -->
     
-    <div class='row' ng-repeat='info in allWords | orderBy: "created_at":true'>
-      <div class='col-md-2'>
-        <h4>{{ info.word }}</h4>
+    <div class='wordRow' ng-repeat='info in allWords | orderBy: "created_at":true'>
+      <span ng-click='deleteWord( info.word )' class='glyphicon glyphicon-trash delete' aria-hidden='true'></span>
+    
+      <div class='lineUp'>
+        <h3>{{ info.word }}</h3><span ng-click='playWord( info.audio )' class='glyphicon glyphicon-volume-up' aria-hidden='true'></span>
       </div>
       
-      <div class='col-md-8'>
-        <h4>{{ info.def }}</h4>
+      <div class='def'>
+        <h6 class='pos'>{{ info.pos }}</h6>
+        <h5>{{ info.def }}</h5>
       </div>
+      
     </div> <!-- ng-repeat row END -->
 
   </div> <!-- insertBar END -->

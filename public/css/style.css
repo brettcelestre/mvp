@@ -1,0 +1,33 @@
+.lineUp {
+  display: inline-flex;
+}
+
+.glyphicon {
+  margin: 27px 0 0 10px;
+}
+
+.wordRow {
+  padding: 0 25px 10px 15px;
+  width: 750px;
+  line-height: 5px;
+}
+
+.wordRow:hover {
+  background-color: #f2f2f2;
+}
+
+.inputRow {
+  margin: 15px;
+}
+
+.def {
+  margin: -13px 0 0 1px;
+}
+
+.pos {
+  color: #666666;
+}
+
+.delete {
+  float: right;
+}

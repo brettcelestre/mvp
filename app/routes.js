@@ -1,23 +1,17 @@
 
 var Word = require('./models/word');
-// var mongodb = require('mongodb');  // Attempted for DELETE method
 
 module.exports = function(app) {
 
-  app.get('/api/words', function(req, res) {
-    console.log('word GET req');
-    
-    Word.find(function(err, words) {
-        if (err) res.send(err);
-        res.json(words);
+  app.get('/api/words', function(req, res) {  // Handles GET requests
+    Word.find(function(err, words) {          // Finds all words in DB
+        if (err) res.send(err);               // Check for errors
+        res.json(words);                      // Sends all words as a response
     });
       
   });
   
   app.post('/api/words', function( req, res ){
-    
-    console.log('Routes > Post > req.body: ', req.body);
-    
     var newWord = new Word();         // create a new instance of the Word model
     newWord.word = req.body.word;     // Assigns word to schema
     newWord.def = req.body.def;       // Assigns definition to schema
@@ -34,8 +28,8 @@ module.exports = function(app) {
   app.delete('/api/words', function( req, res ){  // Delete request
     Word.find(req.body).remove().exec();          // Finds the word by _id, removes it, then exec.
     Word.find(function(err, words) {              // This sends all remaining words back as a response
-        if (err) res.send(err);
-        res.json(words);
+        if (err) res.send(err);                   // Check for errors
+        res.json(words);                          // Sends all words as a response
     });
   });
   

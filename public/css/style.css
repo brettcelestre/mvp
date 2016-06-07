@@ -1,5 +1,24 @@
+
+.inputRow {
+  margin: 20px 0 -10px 14px;
+  display: inline-flex;
+}
+
+.inputForm {
+  width: 250px;
+  height: 40px;
+}
+
+.inputSubmit {
+  margin: 0 0 0 10px;
+}
+
 .lineUp {
   display: inline-flex;
+}
+
+.title {
+  margin: -18px 0 0 30px;
 }
 
 .glyphicon {

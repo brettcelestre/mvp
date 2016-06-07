@@ -86,7 +86,6 @@ app.factory('Word', function ($http) {
   };
 
   var POST = function( data ){
-    console.log('Factor POST data: ', data);
     return $http({
       method: 'POST',
       url: '/api/words',

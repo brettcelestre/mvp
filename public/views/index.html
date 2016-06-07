@@ -20,7 +20,7 @@
     
     <div class='row inputRow'>
       
-      <div class='col-md-3'>
+      <div class='inputForm'>
         <form>
           <div class="form-group">
             <input type="text" class="form-control" ng-model='data.word' placeholder="Word">
@@ -28,8 +28,12 @@
         </form>
       </div>
       
-      <div class='col-md-2'>
+      <div class='inputSubmit'>
         <button type="button" class="btn btn-default" ng-click='addWord( data.word, data.def )'>Add Word</button>
+      </div>
+      
+      <div class='title'>
+        <h2>My Vocab</h2>
       </div>
       
     </div> <!-- Row END -->

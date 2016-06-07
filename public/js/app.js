@@ -60,9 +60,18 @@ app.controller('WordController', function($scope, Word, Audio) {
       }
     };
     
-    $scope.deleteWord = function( word ){
+    $scope.deleteWord = function( id ){
+      console.log('deleteWord ran: ', id);
+      var id = { '_id': id };
       
-      // User Word.delete function, send word
+      Word.DELETE( id )
+      
+        .then( function( res ){
+          console.log('DELETE res: ', res);
+        })
+        .catch(function( err ) {
+          console.error(err);
+        });
       
       // Update allWords: either invoke the function or do another GET and reassign the array
       
@@ -104,10 +113,13 @@ app.factory('Word', function ($http) {
     });
   };
   
-  var DELETE = function( word ){
+  var DELETE = function( id ){
+    console.log('Factory > DELETE: ', id);
     return $http({
-      // method: 'DELETE',
-      // 
+      method: 'DELETE',
+      url: '/api/words',
+      // data: JSON.stringify(word)
+      data: id
     })
     .then(function(res){
       return res;

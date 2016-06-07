@@ -35,7 +35,7 @@
     </div> <!-- Row END -->
     
     <div class='wordRow' ng-repeat='info in allWords | orderBy: "created_at":true'>
-      <span ng-click='deleteWord( info.word )' class='glyphicon glyphicon-trash delete' aria-hidden='true'></span>
+      <span ng-click='deleteWord( info._id )' class='glyphicon glyphicon-trash delete' aria-hidden='true'></span>
     
       <div class='lineUp'>
         <h3>{{ info.word }}</h3><span ng-click='playWord( info.audio )' class='glyphicon glyphicon-volume-up' aria-hidden='true'></span>

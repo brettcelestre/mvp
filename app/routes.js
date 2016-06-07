@@ -1,5 +1,6 @@
 
 var Word = require('./models/word');
+var mongodb = require('mongodb');
 
 module.exports = function(app) {
 
@@ -27,11 +28,27 @@ module.exports = function(app) {
       res.json(newWord);          // Response to POST request
     });
   });
+  
+  // app.delete(
+      
+  // )
 
   // route to handle delete goes here (app.delete)
-  app.delete('/api/words', function( req, res ){
+  // Word.delete('/api/words/:id', function( req, res ){
     // delete the word  
-  })
+    // console.log('Routes.js > req: ', req);
+    
+    // req.body.find( 'word', function( err, word ){
+    //   if ( err ) {
+    //     res.send(err);
+    //   } else if ( word ){
+    //     req.word = word;
+    //     console.log('found it: ');
+    //     // next();
+    //   }
+    //   res.json(newWord);
+    // });
+  // })
   
   // Front End routes ---
   // route to handle all angular requests

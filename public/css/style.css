@@ -45,13 +45,16 @@
 }
 
 .wordRow:hover {
-  background-color: #f2f2f2;
+  background-color: #e6e6e6;
   border-radius: 2px;
 }
 
+.giffy {
+  padding-top: 10px;
+}
 
 .def {
-  margin: -13px 0 0 1px;
+  margin: -13px 0 0px 1px;
 }
 
 .pos {

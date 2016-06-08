@@ -7,6 +7,7 @@ var WordSchema = new Schema({
   def: String,
   pos: String,
   audio: String,
+  gif: String,
   created_at: String
 }) 
 

@@ -14,11 +14,11 @@
   <script src="js/app.js"></script>
 </head>
 <body ng-app="MyVocab" ng-controller="WordController">
-<div class="container">
+<div class="mainbox">
 
-  <div class="col-md-12">
+  <!-- <div class="center"> -->
     
-    <div class='row inputRow'>
+    <div class='inputRow'>
       
       <div class='inputForm'>
         <form>
@@ -39,20 +39,22 @@
     </div> <!-- Row END -->
     
     <div class='wordRow' ng-repeat='info in allWords | orderBy: "created_at":true'>
-      <span ng-click='deleteWord( info._id )' class='glyphicon glyphicon-trash delete' aria-hidden='true'></span>
+      <span ng-mouseover="gif[info.word]=true" ng-mouseleave="gif[info.word]=false" ng-click='deleteWord( info._id, info.word )' class='glyphicon glyphicon-trash delete' aria-hidden='true'></span>
     
       <div class='lineUp'>
         <h3>{{ info.word }}</h3><span ng-click='playWord( info.audio )' class='glyphicon glyphicon-volume-up' aria-hidden='true'></span>
       </div>
       
+      
       <div class='def'>
+        <img ng-src='{{ info.gif }}' alt='' ng-show='gif[info.word]' style='-webkit-user-select: none; width: 300px; height: 200px; margin: auto' />
         <h6 class='pos'>{{ info.pos }}</h6>
         <h5>{{ info.def }}</h5>
       </div>
       
     </div> <!-- ng-repeat row END -->
 
-  </div> <!-- insertBar END -->
+  <!-- </div> --> <!-- insertBar END -->
 
   <!-- <div ng-view></div> -->
 

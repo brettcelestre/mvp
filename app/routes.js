@@ -17,6 +17,7 @@ module.exports = function(app) {
     newWord.def = req.body.def;       // Assigns definition to schema
     newWord.pos = req.body.pos;       // Assigns part of speech
     newWord.audio = req.body.audio;   // Assigns audio url
+    newWord.gif = req.body.gif;
     newWord.created_at = new Date();  // Assigns time stamp
     
     newWord.save(function(err) {  // Saves the newWord

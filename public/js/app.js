@@ -9,6 +9,10 @@ app.controller('WordController', function($scope, Word, Audio) {
       def: ''
     };
     
+    $scope.gif = {
+      
+    }
+    
     $scope.allWords = [];   // Holds all of our words
     
     $scope.playWord = function( url ) {   // Plays a audio for this word
@@ -27,11 +31,24 @@ app.controller('WordController', function($scope, Word, Audio) {
     
     $scope.addWord = function( word ){
       if ( word ){            // Checks to make sure a word was submitted
+        $scope.gif[word] = false;
+        var gifUrl = '';
+        
+        // https://media.giphy.com/media/3oEjHLubOEIG3UkgQE/200_s.gif
+        
+        Word.GIF(word)
+          .then(function(res){
+            console.log('gif: ', res);
+            gifUrl = 'https://media.giphy.com/media/' + res.data.data[0].id + '/giphy.gif';
+          })
+          .catch(function( err ) {
+            console.error( err );
+          });
         
         Word.API(word)        // Sends word through our API call
           
           .then(function(res){          
-            var data = { 'word': word, 'def': null, 'pos': 'unknown', 'audio': 'http://www.fromtexttospeech.com/output/0703176001465334138/13504091.mp3' };  // Creates request object
+            var data = { 'word': word, 'def': null, 'pos': 'unknown', 'audio': 'http://www.fromtexttospeech.com/output/0703176001465334138/13504091.mp3', 'gif': gifUrl };  // Creates request object
             
             console.log('res.data: ', res.data); // Prints out full results
             
@@ -48,7 +65,7 @@ app.controller('WordController', function($scope, Word, Audio) {
                 //   return data;    // Returns our complete data object to be posted
                 // }
                 
-                if ( typeof res.data.results[i].senses[0].definition[0] !== undefined ) {          // Checks to make sure there is a definition
+                if ( typeof res.data.results[i].senses[0].definition[0] !== undefined ) { // Checks to make sure there is a definition
                   data.def = res.data.results[i].senses[0].definition[0];     // Assigns a real definition to our request object
                 }
                 if ( res.data.results[i].hasOwnProperty('part_of_speech') ){   // Checks to make sure there is a part of speech
@@ -101,20 +118,35 @@ app.controller('WordController', function($scope, Word, Audio) {
       }
     };
     
-    $scope.deleteWord = function( id ){   // deleteWord sends id to factory > DELETE method
-      var deleteSound = 'http://soundbible.com/mp3/Computer%20Error-SoundBible.com-1655839472.mp3';
-      Audio.play(deleteSound);
-      
-      Word.DELETE( id )
-        .then( function( res ){           // res.data = all remaining words from DB       
-          $scope.allWords = res.data;     // Updates allWords array
-        })
-        .catch(function( err ) {
-          console.error(err);
-        });
-    };
+    // dc6zaTOxFJmzC
+    // GIF
+    // $scope.deleteHover = function()
     
+    $scope.deleteWord = function( id, word ){   // deleteWord sends id to factory > DELETE method
+      var deleteSound = 'http://soundbible.com/mp3/Computer%20Error-SoundBible.com-1655839472.mp3';
+      
+      var result = confirm('Are you sure you want to delete ' + word + '?');
+      if ( result ) {
+        Audio.play(deleteSound);
+        
+        Word.DELETE( id )
+          .then( function( res ){           // res.data = all remaining words from DB       
+            $scope.allWords = res.data;     // Updates allWords array
+          })
+          .catch(function( err ) {
+            console.error(err);
+          });
+      }
+    };
 })
+
+// Create a controller for a List
+// app.controller('ListController', function( $scope ) {
+//   $scope.list = {
+//     title: ''
+//   };
+    
+// })
 
 // Creates a Word factory --------------------------------
 app.factory('Word', function ($http) {
@@ -150,6 +182,16 @@ app.factory('Word', function ($http) {
     });
   };
   
+  var GIF = function(word){
+    return $http({
+      method: 'GET',
+      url: 'http://api.giphy.com/v1/gifs/search?q=' + word + '&api_key=dc6zaTOxFJmzC'
+    })
+    .then(function( res ){
+      return res;
+    });
+  };
+  
   var DELETE = function( data ){  
     return $http({
       method: 'DELETE',
@@ -166,7 +208,8 @@ app.factory('Word', function ($http) {
     GET: GET,
     POST: POST,
     DELETE: DELETE,
-    API: API
+    API: API,
+    GIF: GIF
   };
   
 })
